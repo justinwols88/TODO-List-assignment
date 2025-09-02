@@ -1,100 +1,121 @@
 # Simple To-Do List Application
 # This program allows users to manage tasks through a command-line interface
 
-def main():
-    # Initialize an empty list to store tasks
-    tasks = []
-    
-    # Display welcome message
-    print("Welcome to the To-Do List App!")
-    
-    # Main program loop - runs until user chooses to quit
-    while True:
-        # Display menu options
-        print("\nOptions: 1=Add, 2=View, 3=Delete, 4=Quit")
-        
-        # Get user input for menu selection
-        choice = input("Choose an option: ")
-        
-        # Option 1: Add a new task
-        if choice == "1":
-            # Get task description from user
-            task = input("Enter task: ").strip()
-            
-            # Check if task is not empty
-            if task:
-                # Add task to the list
-                tasks.append(task)
-                # Confirm addition
-                print("Task added!")
-            else:
-                # Inform user if they tried to add an empty task
-                print("Task can't be empty.")
-                
-        # Option 2: View all tasks
-        elif choice == "2":
-            # Check if there are any tasks to display
-            if not tasks:
-                # Inform user if no tasks are present
-                print("No tasks yet!")
-            else:
-                # Display all tasks with numbering
-                print("\nYour Tasks:")
-                # Display tasks with numbering
-                for i, task in enumerate(tasks, 1):
-                    #
-                    print(f"{i}. {task}")
-                    
-        # Option 3: Delete a task
-        elif choice == "3":
-            # Check if there are any tasks to delete
-            if not tasks:
-                print("No tasks to delete!")
-                continue  # Skip the rest of this loop iteration
-                
-            # Display all tasks so user can see what to delete
-            print("\nYour Tasks:")
-            # Display tasks with numbering
-            for i, task in enumerate(tasks, 1):
-                # Display each task with its number
-                print(f"{i}. {task}")
-                
-            # Try to get and process the task number to delete
-            try:
-                # Get task number from user
-                num = int(input("Enter task number to delete: "))
-                
-                # Check if the number is valid
-                if 1 <= num <= len(tasks):
-                    # Remove the task from the list
-                    removed = tasks.pop(num-1)
-                    # Confirm deletion
-                    print(f"Deleted: {removed}")
-                else:
-                    # Inform user if number is out of range
-                    print("Invalid task number!")
-            except ValueError:
-                # Handle non-numeric input
-                print("Please enter a number!")
-                
-        # Option 4: Quit the application
-        elif choice == "4":
-            # Confirm exit
-            print("Goodbye!")
-            # break the loop
-            break  # Exit the loop and end the program
-            
-        # Handle invalid menu options
+# Function to display the menu
+def display_menu():
+    # Display the menu
+    """Display the main menu options."""
+    # Display the menu
+    print("\nOptions: 1=Add, 2=View, 3=Delete, 4=Quit")
+
+def add_task(tasks):
+    # Display the menu
+    """Add a new task to the list."""
+    # Get user input
+    task = input("Enter task: ").strip()
+    # Check if task is not empty
+    if task:
+        # Add the task
+        tasks.append(task)
+        # Display the menu
+        print("Task added!")
+        # Display the menu
+    else:
+        # Handle empty task
+        print("Task can't be empty.")
+
+def view_tasks(tasks):
+    # Display the tasks
+    """View all tasks in the list."""
+    # Check if tasks list is empty
+    if not tasks:
+        # No tasks to display
+        print("No tasks yet!")
+        # Display the menu
+    else:
+        # Display the tasks
+        print("\nYour Tasks:")
+        # Display each task with its number
+        for i, task in enumerate(tasks, 1):
+            # Display each task with its number
+            print(f"{i}. {task}")
+
+def delete_task(tasks):
+    # Display the menu
+    """Delete a task from the list."""
+    # Check if tasks list is empty
+    if not tasks:
+        # No tasks to delete
+        print("No tasks to delete!")
+        # Display the menu
+        return
+    # Display current tasks
+    view_tasks(tasks)
+    # Get user input
+    try:
+        # Get user input
+        num = int(input("Enter task number to delete: "))
+        # Validate task number
+        if 1 <= num <= len(tasks):
+            # Remove the task
+            removed = tasks.pop(num-1)
+            # Display the menu
+            print(f"Deleted: {removed}")
+            # Display the menu
         else:
-            # Inform user of invalid choice
-            print("Invalid option! Choose 1-4.")
+            # Handle invalid input
+            print("Invalid task number!")
+            # Handle invalid input
+    except ValueError:
+        # Handle invalid input
+        print("Please enter a number!")
+#
+def main():
+    """Main function to run the To-Do List CLI app."""
+    # Initialize task list
+    tasks = []
+    # Welcome message
+    print("Welcome to the To-Do List App!")
+    # Main loop of the TODO app
+    try:
+        # Start the main loop
+        while True:
+            # Display the menu
+            display_menu()
+            # Get user choice
+            choice = input("Choose an option: ")
+            # Process user choice
+            if choice == "1":
+                # Add a task
+                add_task(tasks)
+            # View tasks
+            elif choice == "2":
+                # View all tasks
+                view_tasks(tasks)
+            # Delete tasks
+            elif choice == "3":
+                # Delete a task
+                delete_task(tasks)
+            # Quit
+            elif choice == "4":
+                # Quit the application
+                print("Goodbye!")
+                # Clean up resources if needed
+                break
+            # Handle invalid input
+            else:
+                # Inform the user about the invalid option
+                print("Invalid option! Choose 1-4.")
+    # Clean up resources if needed
+    finally:
+        # Display end message
+        print("To-Do List App has ended.")
 
-# This ensures the program only runs when executed directly
-# (not when imported as a module)
 if __name__ == "__main__":
+    # Start the main program
     main()
-
-    # Confirm program completion
+    # Display end message
     print("To-Do List App has ended.")
 
-#note: I kept it 100; This code was crafted by Justin Wold with ❤️.
+# This code was crafted by Justin Wold with ❤️.
+# to run this program open a terminal, browser to parent folder and type: python todo-list.py
